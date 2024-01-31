@@ -20,7 +20,6 @@ const gainsTrustWithTheUser: MentalProcess = async ({
   const newStream = await mapStream(stream, (str) => {
     return [...str].map((c) => replaceChosung(c)).join("");
   });
-  // const newStream = await mapStream(stream, (str) => replaceGToK(str));
   speak(newStream);
 
   return nextStep;
