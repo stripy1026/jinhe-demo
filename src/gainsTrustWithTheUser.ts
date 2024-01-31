@@ -1,8 +1,6 @@
 import { externalDialog } from "socialagi";
 import { MentalProcess } from "soul-engine";
-import { mapStream } from "./mapStream.js";
 import replaceChosung from "./replaceChosung.js";
-import replaceGToK from "./replaceGtoK.js";
 
 const gainsTrustWithTheUser: MentalProcess = async ({
   step: initialStep,
@@ -17,10 +15,15 @@ const gainsTrustWithTheUser: MentalProcess = async ({
     { stream: true, model: "quality" }
   );
 
-  const newStream = await mapStream(stream, (str) => {
-    return [...str].map((c) => replaceChosung(c)).join("");
-  });
-  speak(newStream);
+  async function* transformStream(
+    it: AsyncIterable<string>,
+    callback: (char: string) => string
+  ) {
+    for await (let chunk of it) {
+      yield [...chunk].map(callback).join("");
+    }
+  }
+  speak(transformStream(stream, replaceChosung));
 
   return nextStep;
 };

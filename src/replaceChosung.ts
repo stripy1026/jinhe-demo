@@ -1,4 +1,4 @@
-function decomposeHangul(char) {
+function decomposeHangul(char: string) {
   const BASE_CODE = 0xac00;
   const CHOSUNG = 588;
   const JUNGSUNG = 28;
@@ -17,7 +17,7 @@ function decomposeHangul(char) {
     "ㅅ",
     "ㅆ",
     "ㅇ",
-    "ㅈ",
+    "ㅈ",: string
     "ㅉ",
     "ㅊ",
     "ㅋ",
@@ -93,7 +93,7 @@ function decomposeHangul(char) {
   ];
 }
 
-function composeHangul(chosung, jungsung, jongsung) {
+function composeHangul(chosung: string, jungsung: string, jongsung: string) {
   const BASE_CODE = 0xac00;
   const CHOSUNG = 588;
   const JUNGSUNG = 28;
@@ -186,7 +186,7 @@ function composeHangul(chosung, jungsung, jongsung) {
   return String.fromCharCode(uniValue);
 }
 
-export default function replaceChosung(char) {
+export default function replaceChosung(char: string): string {
   if (char < "가" || char > "힣") return char;
   let [chosung, jungsung, jongsung] = decomposeHangul(char);
   let newChosung = chosung;
@@ -197,7 +197,3 @@ export default function replaceChosung(char) {
 
   return composeHangul(newChosung, jungsung, jongsung);
 }
-
-// "가"를 "카"로 치환하는 예시
-// let result = replaceChosung("가", "ㅋ");
-// console.log(result); // "카"
